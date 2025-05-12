@@ -73,6 +73,9 @@ df['voting category'] = df['votes'].apply(lambda x: 'Very Popular' if x>=10000 e
     'Popular' if x>=1000 else( 'Average' if x >= 100  else 'Unknown')
 ))
 df
+#%%
+df['year'] = df['year'].astype(str).str.extract(r'(\d{4})')
+df
 # %%
 !pip install openpyxl
 
