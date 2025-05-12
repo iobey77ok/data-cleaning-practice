@@ -80,8 +80,14 @@ df
 !pip install openpyxl
 
 # %%
+df.drop('count_directors', axis=1,inplace=True)
+df
+# %%
+df.rename(columns={'count_actors' : 'actors count', 'director' : 'director name',
+                   'actor' : 'actor names'}, inplace=True)
+df
+# %%
+#replace with new one
 df.to_excel('cleaned_movies.xlsx', index=False)
-df.to_csv('cleaned_movies.csv', index=False)
-
 
 # %%
