@@ -46,6 +46,39 @@ df
 
 mask2 = df['rating'].isnull() | df['director'].isnull() | df['actor'].isnull()
 df[~mask2]
+
+#%%
+
+#delete all rows that have NaN
+df = df.dropna()
+df
 # %%
+df['count_actors'] = df['actor'].apply(lambda x: len(str(x).split(',')))
+df['count_directors'] = df['director'].apply(lambda x: len(str(x).split(',')))
+df
+# %%
+
+df = df.reset_index(drop=True)
+df
+
+# %%
+df['rating category'] = df['rating'].apply(lambda x: 'High' if x >= 7 else(
+    'Moderate' if x>=5 else 'Low'))
+df
+#%%
 df.dtypes
+df['votes'] = df['votes'].str.replace(',', '').astype(int)
+# %%
+df['voting category'] = df['votes'].apply(lambda x: 'Very Popular' if x>=10000 else(
+    'Popular' if x>=1000 else( 'Average' if x >= 100  else 'Unknown')
+))
+df
+# %%
+!pip install openpyxl
+
+# %%
+df.to_excel('cleaned_movies.xlsx', index=False)
+df.to_csv('cleaned_movies.csv', index=False)
+
+
 # %%
