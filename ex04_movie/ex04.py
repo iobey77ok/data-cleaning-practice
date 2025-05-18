@@ -85,7 +85,28 @@ df
 # %%
 df.rename(columns={'count_actors' : 'actors count', 'director' : 'director name',
                    'actor' : 'actor names'}, inplace=True)
+df.columns = df.columns.str.strip().str.title()
 df
+
+# %%
+# check if there any duplicates
+df[df['Movies'].duplicated()]
+df = df.sort_values('Rating', ascending=False).drop_duplicates(subset=['Movies', 'Year'], keep='first')
+df
+# %%
+title_counts = df['Movies'].value_counts()
+title_counts
+# %%
+duplicate_mask = df['Movies'].isin(title_counts[title_counts > 1].index)
+df.loc[duplicate_mask, 'Movies'] = (
+    df.loc[duplicate_mask, 'Movies'] + ' (' + df.loc[duplicate_mask, 'Year'].astype(str) + ')'
+)
+df
+
+# %%
+df = df.reset_index(drop=True)
+df
+# %%
 # %%
 #replace with new one
 df.to_excel('cleaned_movies.xlsx', index=False)
